@@ -1,0 +1,48 @@
+{
+  "name": "@pillage-first/graphics",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "",
+  "author": "Jure Rotar <hello@jurerotar.com>",
+  "homepage": "https://github.com/jurerotar/Pillage-First-Graphics",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jurerotar/Pillage-First-Graphics.git"
+  },
+  "keywords": [],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "files": ["dist"],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint:check": "npx @biomejs/biome lint",
+    "lint": "npx @biomejs/biome lint --fix",
+    "format:check": "npx @biomejs/biome format",
+    "format": "npx @biomejs/biome format --write",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "build:types": "tsc --emitDeclarationOnly",
+    "prepublishOnly": "npm run build && npm run build:types",
+    "release": "npm publish --access public"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.3",
+    "react": "18.3.1",
+    "typescript": "5.6.2",
+    "vite": "5.4.8",
+    "vite-plugin-static-copy": "2.0.0",
+    "vite-plugin-svgr": "4.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}
