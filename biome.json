@@ -1,38 +1,48 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
-  "formatter": {
-    "useEditorconfig": true,
-    "formatWithErrors": true,
-    "attributePosition": "multiline",
-    "ignore": ["dist"]
-  },
-  "linter": {
-    "rules": {
-      "recommended": true,
-      "suspicious": {
-        "noConsole": "error"
-      },
-      "correctness": {
-        "noUnusedVariables": "error",
-        "noUnusedImports": "error"
-      },
-      "style": {
-        "noNonNullAssertion": "off"
-      }
-    },
-    "ignore": ["dist"]
-  },
-  "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "semicolons": "always",
-      "arrowParentheses": "always",
-      "bracketSpacing": true,
-      "bracketSameLine": false,
-      "quoteStyle": "single",
-      "attributePosition": "multiline",
-      "trailingCommas": "all"
-    }
-  }
+	"$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+	"formatter": {
+		"useEditorconfig": true,
+		"formatWithErrors": true,
+		"attributePosition": "multiline",
+		"includes": ["**", "!**/dist"]
+	},
+	"linter": {
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noConsole": "error"
+			},
+			"correctness": {
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error"
+			},
+			"style": {
+				"noNonNullAssertion": "off",
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error"
+			}
+		},
+		"includes": ["**", "!**/dist"]
+	},
+	"javascript": {
+		"formatter": {
+			"jsxQuoteStyle": "double",
+			"quoteProperties": "asNeeded",
+			"semicolons": "always",
+			"arrowParentheses": "always",
+			"bracketSpacing": true,
+			"bracketSameLine": false,
+			"quoteStyle": "single",
+			"attributePosition": "multiline",
+			"trailingCommas": "all"
+		}
+	}
 }

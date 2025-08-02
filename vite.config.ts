@@ -14,7 +14,7 @@ export default defineConfig({
       structured: true,
       targets: [
         {
-          src: 'graphic-packs/**/*.{avif,jpg}',
+          src: 'graphic-packs/**/*.avif',
           dest: '',
         },
       ],
