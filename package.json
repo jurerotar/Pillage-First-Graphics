@@ -1,6 +1,6 @@
 {
   "name": "@pillage-first/graphics",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "description": "Pillage-First Graphics Library provides graphical assets for the game Pillage First! (Ask Questions Later). This library includes SVG-based graphics, as well as organized image packs.",
   "author": "Jure Rotar <hello@jurerotar.com>",
