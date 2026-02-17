@@ -1,4 +1,2 @@
-import Catapult from './svg/catapult.svg?react';
-import Horse from './svg/horse.svg?react';
-
-export { Catapult as PillageFirstCatapult, Horse as PillageFirstHorse };
+export { default as PillageFirstCatapult } from './svg/catapult.svg?react';
+export { default as PillageFirstHorse } from './svg/horse.svg?react';
