@@ -1,10 +1,10 @@
 import { defineConfig } from 'tsdown';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
-import { mkdir, readFile, copyFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
-import { basename, dirname, join, resolve } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 
 const generateSvgComponents = async () => {
   const svgFiles = await Array.fromAsync(glob('src/svg/*.svg'));
@@ -49,54 +49,24 @@ export default defineConfig({
   clean: true,
   dts: true,
   external: ['react', 'react/jsx-runtime'],
-  watch: ['./src/svg/*.svg'],
   hooks: (hooks) => {
     hooks.hook('build:prepare', async () => {
       await generateSvgComponents();
     });
   },
-  plugins: [
+  copy: [
+    { from: './src/graphic-packs/**/*.avif', flatten: false },
     {
-      name: 'static-copy',
-      async buildEnd() {
-        const targets = [
-          {
-            src: 'src/graphic-packs/**/*.avif',
-            dest: 'dist',
-          },
-          {
-            src: 'src/public/**/*.png',
-            dest: 'dist',
-          },
-          {
-            src: 'src/public/**/*.svg',
-            dest: 'dist',
-          },
-          {
-            src: 'src/public/favicon/**/*',
-            dest: 'dist',
-          },
-        ];
-
-        for (const target of targets) {
-          const files = await Array.fromAsync(glob(target.src));
-          for (const file of files) {
-            let relativePath = file;
-            if (file.startsWith('src\\public\\')) {
-              relativePath = file.replace('src\\public\\', '');
-            } else if (file.startsWith('src/public/')) {
-              relativePath = file.replace('src/public/', '');
-            } else if (file.startsWith('src\\graphic-packs\\')) {
-              relativePath = file.replace('src\\', '');
-            } else if (file.startsWith('src/graphic-packs/')) {
-              relativePath = file.replace('src/', '');
-            }
-            const destPath = join(target.dest, relativePath);
-            await mkdir(dirname(destPath), { recursive: true });
-            await copyFile(file, destPath);
-          }
-        }
-      },
+      from: './src/public/favicon/**/*',
+      to: './dist/favicon',
+    },
+    {
+      from: [
+        'src/public/**/*.png',
+        'src/public/**/*.svg',
+        '!src/public/favicon/**',
+      ],
+      to: './dist',
     },
   ],
 });

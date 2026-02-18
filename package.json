@@ -24,7 +24,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsdown --watch ./src",
+    "dev": "tsdown --watch",
     "build": "tsdown",
     "lint:check": "npx @biomejs/biome lint",
     "lint": "npx @biomejs/biome lint --fix",
