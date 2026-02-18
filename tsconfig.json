@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
     "target": "ESNext",
-    "lib": ["esnext"],
-    "types": ["vite/client", "vite-plugin-svgr/client"],
-    "typeRoots": ["node_modules/@types", "node_modules"],
-    "baseUrl": "./",
+    "lib": ["ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "declaration": true,
@@ -21,8 +17,9 @@
     "moduleResolution": "bundler",
     "noEmit": false,
     "strict": true,
-    "module": "esnext"
+    "module": "esnext",
+    "jsx": "react-jsx"
   },
   "exclude": ["node_modules"],
-  "include": ["./index.ts"]
+  "include": ["./src/index.ts", "./tsdown.config.ts"]
 }

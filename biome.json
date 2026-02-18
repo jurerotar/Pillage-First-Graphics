@@ -1,10 +1,12 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "includes": ["**", "!**/dist", "!**/generated-svgs"]
+  },
   "formatter": {
     "useEditorconfig": true,
     "formatWithErrors": true,
-    "attributePosition": "multiline",
-    "includes": ["**", "!**/dist"]
+    "attributePosition": "multiline"
   },
   "linter": {
     "rules": {
@@ -29,8 +31,7 @@
         "noInferrableTypes": "error",
         "noUselessElse": "error"
       }
-    },
-    "includes": ["**", "!**/dist"]
+    }
   },
   "javascript": {
     "formatter": {

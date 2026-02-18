@@ -11,6 +11,10 @@
 # production
 /build
 /dist
+/src/generated-svgs
+/src/index.ts
+/generated-svgs
+index.ts
 
 # misc
 .DS_Store
