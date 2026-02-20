@@ -24,14 +24,7 @@ const generateSvgComponents = async () => {
     const optimizedSvg = optimize(svgCode, {
       path: svgFile,
       plugins: [{ name: 'preset-default' }],
-      js2svg: {
-        indent: 2,
-        pretty: true,
-      },
     });
-
-    const svgoPath = svgFile.replace(/\.svg$/, '.svgo.svg');
-    await writeFile(svgoPath, optimizedSvg.data);
 
     const componentCode = await transform(
       optimizedSvg.data,
