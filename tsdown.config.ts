@@ -1,13 +1,14 @@
 import { defineConfig } from 'tsdown';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
+import { optimize } from 'svgo';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
 
 const generateSvgComponents = async () => {
-  const svgFiles = await Array.fromAsync(glob('src/svg/*.svg'));
+  const svgFiles = (await Array.fromAsync(glob('src/svg/*.svg'))).filter(f => !f.endsWith('.svgo.svg'));
   const outDir = resolve('src/generated-svgs');
   await mkdir(outDir, { recursive: true });
 
@@ -18,8 +19,18 @@ const generateSvgComponents = async () => {
     const componentName = `PillageFirst${pascalCase(fileName)}`;
     const svgCode = await readFile(svgFile, 'utf8');
 
+    const optimizedSvg = optimize(svgCode, {
+      path: svgFile,
+      plugins: [
+        { name: 'preset-default' },
+      ],
+    });
+
+    const svgoPath = svgFile.replace(/\.svg$/, '.svgo.svg');
+    await writeFile(svgoPath, optimizedSvg.data);
+
     const componentCode = await transform(
-      svgCode,
+      optimizedSvg.data,
       {
         plugins: [jsx],
         exportType: 'named',

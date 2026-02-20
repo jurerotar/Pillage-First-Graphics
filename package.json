@@ -24,7 +24,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsdown --watch",
+    "dev": "node ./scripts/watch.ts",
     "build": "tsdown",
     "lint:check": "npx @biomejs/biome lint",
     "lint": "npx @biomejs/biome lint --fix",
@@ -37,11 +37,15 @@
     "release": "npm publish"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.2",
+    "@biomejs/biome": "2.4.3",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@types/node": "25.2.3",
+    "@types/node": "25.3.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "chokidar": "5.0.0",
     "react": "19.2.4",
+    "svgo": "4.0.0",
     "tsdown": "0.20.3",
     "typescript": "5.9.3"
   },
