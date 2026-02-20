@@ -8,7 +8,9 @@ import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
 
 const generateSvgComponents = async () => {
-  const svgFiles = (await Array.fromAsync(glob('src/svg/*.svg'))).filter(f => !f.endsWith('.svgo.svg'));
+  const svgFiles = (await Array.fromAsync(glob('src/svg/*.svg'))).filter(
+    (f) => !f.endsWith('.svgo.svg'),
+  );
   const outDir = resolve('src/generated-svgs');
   await mkdir(outDir, { recursive: true });
 
@@ -21,9 +23,11 @@ const generateSvgComponents = async () => {
 
     const optimizedSvg = optimize(svgCode, {
       path: svgFile,
-      plugins: [
-        { name: 'preset-default' },
-      ],
+      plugins: [{ name: 'preset-default' }],
+      js2svg: {
+        indent: 2,
+        pretty: true,
+      },
     });
 
     const svgoPath = svgFile.replace(/\.svg$/, '.svgo.svg');
