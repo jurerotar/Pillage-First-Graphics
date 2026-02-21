@@ -40,7 +40,7 @@ const runBuild = () => {
 const svgDir = path.join(process.cwd(), 'src', 'svg');
 
 const watcher = chokidar.watch(svgDir, {
-  ignored: (p, stats) => stats?.isFile() ? (!p.endsWith('.svg') || p.endsWith('.svgo.svg')) : false,
+  ignored: (p, stats) => stats?.isFile() ? (!p.endsWith('.svg') || p.endsWith('.svgo.svg') || p.endsWith('.inkscape.svg')) : false,
   ignoreInitial: false,
   awaitWriteFinish: {
     stabilityThreshold: 200,

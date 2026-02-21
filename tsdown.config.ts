@@ -8,7 +8,8 @@ import { basename, join, resolve } from 'node:path';
 
 const generateSvgComponents = async () => {
   const svgFiles = (await Array.fromAsync(glob('src/svg/*.svg'))).filter(
-    (f) => !f.endsWith('.svgo.svg'),
+    // Ignore inkscape source files
+    (f) => !f.endsWith('.svgo.svg') && !f.endsWith('.inkscape.svg'),
   );
   const outDir = resolve('src/generated-svgs');
   await mkdir(outDir, { recursive: true });
