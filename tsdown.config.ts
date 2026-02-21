@@ -1,8 +1,7 @@
 import { defineConfig } from 'tsdown';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
-import { optimize } from 'svgo';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, stat, unlink } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
@@ -19,15 +18,27 @@ const generateSvgComponents = async () => {
   for (const svgFile of svgFiles) {
     const fileName = basename(svgFile, '.svg');
     const componentName = `PillageFirst${pascalCase(fileName)}`;
+    const outPath = join(outDir, `${componentName}.tsx`);
+
+    const svgStats = await stat(svgFile);
+    let outStats;
+    try {
+      outStats = await stat(outPath);
+    } catch {
+      // ignore
+    }
+
+    if (outStats && outStats.mtimeMs > svgStats.mtimeMs) {
+      exports.push(
+        `export { ${componentName} } from './generated-svgs/${componentName}';`,
+      );
+      continue;
+    }
+
     const svgCode = await readFile(svgFile, 'utf8');
 
-    const optimizedSvg = optimize(svgCode, {
-      path: svgFile,
-      plugins: [{ name: 'preset-default' }],
-    });
-
     const componentCode = await transform(
-      optimizedSvg.data,
+      svgCode,
       {
         plugins: [jsx],
         exportType: 'named',
@@ -38,7 +49,6 @@ const generateSvgComponents = async () => {
       { componentName },
     );
 
-    const outPath = join(outDir, `${componentName}.tsx`);
     await writeFile(outPath, componentCode);
 
     exports.push(
@@ -46,15 +56,59 @@ const generateSvgComponents = async () => {
     );
   }
 
+  // Cleanup orphaned files
+  const generatedFiles = await Array.fromAsync(glob('src/generated-svgs/*.tsx'));
+  const validComponentNames = new Set(
+    svgFiles.map(
+      (f) => `PillageFirst${pascalCase(basename(f, '.svg'))}.tsx`,
+    ),
+  );
+
+  for (const file of generatedFiles) {
+    if (!validComponentNames.has(basename(file))) {
+      await unlink(file).catch(() => {});
+    }
+  }
+
   const indexContent = `${exports.join('\n')}\n`;
   const indexPath = resolve('src/index.ts');
-  await writeFile(indexPath, indexContent);
+
+  let currentIndexContent;
+  try {
+    currentIndexContent = await readFile(indexPath, 'utf8');
+  } catch {
+    // ignore
+  }
+
+  if (currentIndexContent !== indexContent) {
+    await writeFile(indexPath, indexContent);
+  }
+};
+
+const copyStaticFiles = async () => {
+  const staticFiles = await Array.fromAsync(glob([
+    'src/graphic-packs/**/*.avif',
+    'src/public/**/*',
+  ]));
+
+  let latestMtime = 0;
+  for (const file of staticFiles) {
+    const s = await stat(file).catch(() => null);
+    if (s && s.mtimeMs > latestMtime) latestMtime = s.mtimeMs;
+  }
+
+  const distExists = await stat('dist').catch(() => null);
+  // Only skip if dist is newer than ALL static files
+  if (distExists && distExists.mtimeMs > latestMtime) {
+    return false;
+  }
+  return true;
 };
 
 export default defineConfig({
   entry: ['src/index.ts'],
   format: 'esm',
-  clean: true,
+  clean: false,
   dts: true,
   external: ['react', 'react/jsx-runtime'],
   hooks: (hooks) => {
@@ -62,19 +116,26 @@ export default defineConfig({
       await generateSvgComponents();
     });
   },
-  copy: [
-    { from: './src/graphic-packs/**/*.avif', flatten: false },
-    {
-      from: './src/public/favicon/**/*',
-      to: './dist/favicon',
-    },
-    {
-      from: [
-        'src/public/**/*.png',
-        'src/public/**/*.svg',
-        '!src/public/favicon/**',
-      ],
-      to: './dist',
-    },
-  ],
+  copy: async () => {
+    if (await copyStaticFiles()) {
+      console.log('[tsdown] Copying static files...');
+      return [
+        { from: './src/graphic-packs/**/*.avif', flatten: false },
+        {
+          from: './src/public/favicon/**/*',
+          to: './dist/favicon',
+        },
+        {
+          from: [
+            'src/public/**/*.png',
+            'src/public/**/*.svg',
+            '!src/public/favicon/**',
+          ],
+          to: './dist',
+        },
+      ];
+    }
+    console.log('[tsdown] Static files are up-to-date, skipping copy.');
+    return [];
+  },
 });

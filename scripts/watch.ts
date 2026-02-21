@@ -1,9 +1,10 @@
 import chokidar from 'chokidar';
-import { spawn } from 'node:child_process';
+import { type ChildProcess, spawn } from 'node:child_process';
 import path from 'node:path';
 
 let building = false;
 let pending = false;
+let child: ChildProcess | null = null;
 let debounceTimer: NodeJS.Timeout | null = null;
 
 const runBuild = () => {
@@ -14,12 +15,13 @@ const runBuild = () => {
 
   building = true;
 
-  const child = spawn('npm', ['run', 'build'], {
+  child = spawn('npm', ['run', 'build'], {
     stdio: 'inherit',
     shell: true,
   });
 
-  child.on('exit', (code) => {
+  child.on('exit', (code: number | null) => {
+    child = null;
     building = false;
     if (pending) {
       pending = false;
@@ -29,7 +31,7 @@ const runBuild = () => {
       }
       debounceTimer = setTimeout(runBuild, 150);
     }
-    if (code !== 0) {
+    if (code !== 0 && code !== null) {
       console.error(`tsdown exited with code ${code}`);
     }
   });
@@ -72,4 +74,17 @@ watcher
     console.log('[svg-watch] Initial scan complete. Running initial build...');
     runBuild();
   });
+
+const cleanup = async () => {
+  console.log('[svg-watch] Closing watcher...');
+  await watcher.close();
+  if (child) {
+    console.log('[svg-watch] Killing child process...');
+    child.kill();
+  }
+  process.exit(0);
+};
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
 
