@@ -1,9 +1,11 @@
 {
+  "exclude": ["node_modules", "src/generated-svgs"],
+  "include": ["src/index.ts", "tsdown.config.ts"],
   "compilerOptions": {
+    "skipLibCheck": true,
     "target": "ESNext",
     "lib": ["ESNext"],
     "allowJs": false,
-    "skipLibCheck": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
@@ -18,8 +20,7 @@
     "noEmit": false,
     "strict": true,
     "module": "esnext",
-    "jsx": "react-jsx"
-  },
-  "exclude": ["node_modules"],
-  "include": ["./src/index.ts", "./tsdown.config.ts"]
+    "jsx": "react-jsx",
+    "skipDefaultLibCheck": true
+  }
 }

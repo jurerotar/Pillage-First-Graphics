@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
-import { mkdir, readFile, writeFile, stat, unlink } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, stat, unlink, rm } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
@@ -50,7 +50,7 @@ const generateSvgComponents = async () => {
       { componentName },
     );
 
-    await writeFile(outPath, componentCode);
+    await writeFile(outPath, `/* @ts-nocheck */\n${componentCode}`);
 
     exports.push(
       `export { ${componentName} } from './generated-svgs/${componentName}';`,
@@ -98,12 +98,13 @@ const copyStaticFiles = async () => {
     if (s && s.mtimeMs > latestMtime) latestMtime = s.mtimeMs;
   }
 
-  const distExists = await stat('dist').catch(() => null);
-  // Only skip if dist is newer than ALL static files
-  if (distExists && distExists.mtimeMs > latestMtime) {
-    return false;
+  const markerPath = join('dist', '.static-files-copied');
+  const markerStats = await stat(markerPath).catch(() => null);
+
+  if (!markerStats || markerStats.mtimeMs < latestMtime) {
+    return true;
   }
-  return true;
+  return false;
 };
 
 export default defineConfig({
@@ -116,10 +117,14 @@ export default defineConfig({
     hooks.hook('build:prepare', async () => {
       await generateSvgComponents();
     });
+    hooks.hook('build:done', async () => {
+      await rm('src/generated-svgs', { recursive: true, force: true });
+    });
   },
   copy: async () => {
     if (await copyStaticFiles()) {
       console.log('[tsdown] Copying static files...');
+
       return [
         { from: './src/graphic-packs/**/*.avif', flatten: false },
         {
