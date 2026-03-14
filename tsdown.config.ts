@@ -1,6 +1,7 @@
 import { defineConfig } from 'tsdown';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
+import svgo from '@svgr/plugin-svgo';
 import { mkdir, readFile, writeFile, stat, unlink, rm } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
@@ -41,16 +42,75 @@ const generateSvgComponents = async () => {
     const componentCode = await transform(
       svgCode,
       {
-        plugins: [jsx],
+        plugins: [svgo, jsx],
         exportType: 'named',
         namedExport: componentName,
         typescript: true,
         jsxRuntime: 'automatic',
+        icon: true,
+        svgo: true,
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  removeViewBox: false, // keep scaling
+                  cleanupIds: false, // handled by prefixIds
+                },
+              },
+            },
+
+            'inlineStyles',
+            'removeStyleElement',
+            // Prefer viewBox-driven scaling
+            'removeDimensions',
+
+            // React doesn't need XML namespaces
+            'removeXMLNS',
+
+            // Modern SVG2
+            'removeXlink',
+
+            // Avoid ID collisions between icons
+            {
+              name: 'prefixIds',
+              params: {
+                prefix: componentName,
+                delim: '-',
+              },
+            },
+
+            // Remove editor / legacy attributes
+            {
+              name: 'removeAttrs',
+              params: {
+                attrs: '(x|y|enable-background)',
+              },
+            },
+
+            // Remove metadata from Illustrator/Figma/etc
+            'removeMetadata',
+            'removeEditorsNSData',
+
+            // Clean up paths
+            'convertPathData',
+
+            // Merge duplicate paths
+            'mergePaths',
+
+            // Collapse useless groups
+            'collapseGroups',
+
+            // Remove empty containers
+            'removeEmptyContainers',
+          ],
+        },
       },
       { componentName },
     );
 
-    await writeFile(outPath, `/* @ts-nocheck */\n${componentCode}`);
+    await writeFile(outPath, componentCode);
 
     exports.push(
       `export { ${componentName} } from './generated-svgs/${componentName}';`,
@@ -67,7 +127,7 @@ const generateSvgComponents = async () => {
 
   for (const file of generatedFiles) {
     if (!validComponentNames.has(basename(file))) {
-      await unlink(file).catch(() => {});
+      await unlink(file);
     }
   }
 
@@ -112,7 +172,9 @@ export default defineConfig({
   format: 'esm',
   clean: false,
   dts: true,
-  external: ['react', 'react/jsx-runtime'],
+  deps: {
+    neverBundle: ['react', 'react/jsx-runtime'],
+  },
   hooks: (hooks) => {
     hooks.hook('build:prepare', async () => {
       await generateSvgComponents();

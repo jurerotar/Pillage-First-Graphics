@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "src/generated-svgs"],
+  "exclude": ["node_modules", "src/generated-svgs", "src/index.ts"],
   "include": ["src/index.ts", "tsdown.config.ts"],
   "compilerOptions": {
     "skipLibCheck": true,
@@ -17,7 +17,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "moduleResolution": "bundler",
-    "noEmit": false,
+    "noEmit": true,
     "strict": true,
     "module": "esnext",
     "jsx": "react-jsx",

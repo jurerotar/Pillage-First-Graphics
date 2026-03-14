@@ -49,37 +49,31 @@ const watcher = chokidar.watch(svgDir, {
 });
 
 watcher
-  .on('add', (path: string) => {
-    console.log(`[svg-watch] Added: ${path}`);
+  .on('add', () => {
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
     debounceTimer = setTimeout(runBuild, 100);
   })
-  .on('change', (path: string) => {
-    console.log(`[svg-watch] Changed: ${path}`);
+  .on('change', () => {
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
     debounceTimer = setTimeout(runBuild, 100);
   })
-  .on('unlink', (path: string) => {
-    console.log(`[svg-watch] Removed: ${path}`);
+  .on('unlink', () => {
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
     debounceTimer = setTimeout(runBuild, 100);
   })
   .on('ready', () => {
-    console.log('[svg-watch] Initial scan complete. Running initial build...');
     runBuild();
   });
 
 const cleanup = async () => {
-  console.log('[svg-watch] Closing watcher...');
   await watcher.close();
   if (child) {
-    console.log('[svg-watch] Killing child process...');
     child.kill();
   }
   process.exit(0);

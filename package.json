@@ -1,6 +1,6 @@
 {
   "name": "@pillage-first/graphics",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "type": "module",
   "description": "Pillage-First Graphics Library provides graphical assets for the game Pillage First! (Ask Questions Later). This library includes SVG-based graphics, as well as organized image packs.",
   "author": "Jure Rotar <hello@jurerotar.com>",
@@ -32,20 +32,20 @@
     "format": "npx @biomejs/biome format --write",
     "type-check": "tsc --noEmit",
     "test": "vitest",
-    "build:types": "tsc --emitDeclarationOnly",
-    "prepublishOnly": "npm run build && npm run build:types",
+    "prepublishOnly": "npm run build",
     "release": "npm publish"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.4",
+    "@biomejs/biome": "2.4.7",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@types/node": "25.3.0",
+    "@svgr/plugin-svgo": "8.1.0",
+    "@types/node": "25.5.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "chokidar": "5.0.0",
     "react": "19.2.4",
-    "tsdown": "0.20.3",
+    "tsdown": "0.21.2",
     "typescript": "5.9.3"
   },
   "dependencies": {
