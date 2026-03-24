@@ -6,6 +6,7 @@ import { mkdir, readFile, writeFile, stat, unlink, rm } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
+import sharp from 'sharp';
 
 const generateSvgComponents = async () => {
   const svgFiles = (await Array.fromAsync(glob('src/svg/*.svg'))).filter(
@@ -146,6 +147,23 @@ const generateSvgComponents = async () => {
   }
 };
 
+const optimizeImages = async () => {
+  const logoPath = 'src/public/pillage-first-logo.png';
+  const outPath = 'dist/pillage-first-logo.png';
+
+  await mkdir('dist', { recursive: true });
+
+  await sharp(logoPath)
+    .png({
+      palette: true,
+      quality: 100,
+      force: true
+    })
+    .toFile(outPath);
+
+  console.log(`[tsdown] Optimized logo saved to ${outPath}`);
+};
+
 const copyStaticFiles = async () => {
   const staticFiles = await Array.fromAsync(glob([
     'src/graphic-packs/**/*.avif',
@@ -180,6 +198,7 @@ export default defineConfig({
       await generateSvgComponents();
     });
     hooks.hook('build:done', async () => {
+      await optimizeImages();
       await rm('src/generated-svgs', { recursive: true, force: true });
     });
   },
@@ -198,6 +217,7 @@ export default defineConfig({
             'src/public/**/*.png',
             'src/public/**/*.svg',
             '!src/public/favicon/**',
+            '!src/public/pillage-first-logo.png',
           ],
           to: './dist',
         },
