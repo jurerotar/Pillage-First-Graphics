@@ -119,11 +119,11 @@ const generateSvgComponents = async () => {
   }
 
   // Cleanup orphaned files
-  const generatedFiles = await Array.fromAsync(glob('src/generated-svgs/*.tsx'));
+  const generatedFiles = await Array.fromAsync(
+    glob('src/generated-svgs/*.tsx'),
+  );
   const validComponentNames = new Set(
-    svgFiles.map(
-      (f) => `PillageFirst${pascalCase(basename(f, '.svg'))}.tsx`,
-    ),
+    svgFiles.map((f) => `PillageFirst${pascalCase(basename(f, '.svg'))}.tsx`),
   );
 
   for (const file of generatedFiles) {
@@ -157,7 +157,7 @@ const optimizeImages = async () => {
     .png({
       palette: true,
       quality: 100,
-      force: true
+      force: true,
     })
     .toFile(outPath);
 
@@ -165,10 +165,9 @@ const optimizeImages = async () => {
 };
 
 const copyStaticFiles = async () => {
-  const staticFiles = await Array.fromAsync(glob([
-    'src/graphic-packs/**/*.avif',
-    'src/public/**/*',
-  ]));
+  const staticFiles = await Array.fromAsync(
+    glob(['src/graphic-packs/**/*.avif', 'src/public/**/*']),
+  );
 
   let latestMtime = 0;
   for (const file of staticFiles) {
