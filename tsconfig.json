@@ -1,6 +1,6 @@
 {
   "exclude": ["node_modules", "src/generated-svgs", "src/index.ts"],
-  "include": ["src/index.ts", "tsdown.config.ts"],
+  "include": ["src/index.ts", "scripts/**/*.ts", "tsdown.config.ts"],
   "compilerOptions": {
     "skipLibCheck": true,
     "target": "ESNext",

@@ -34,7 +34,7 @@
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "prepublishOnly": "npm run build",
-    "release": "npm publish"
+    "release": "node ./scripts/publish.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.12",
