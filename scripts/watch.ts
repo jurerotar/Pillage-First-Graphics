@@ -32,20 +32,29 @@ const runBuild = () => {
       debounceTimer = setTimeout(runBuild, 150);
     }
     if (code !== 0 && code !== null) {
+      // biome-ignore lint/suspicious/noConsole: Build scripts report progress in the terminal.
       console.error(`tsdown exited with code ${code}`);
     }
   });
 };
 
-const svgDir = path.join(process.cwd(), 'src', 'svg');
+const watchedDirs = [
+  path.join(process.cwd(), 'src', 'svg'),
+  path.join(process.cwd(), 'src', 'graphic-packs', 'default', 'buildings'),
+];
 
-const watcher = chokidar.watch(svgDir, {
-  ignored: (p, stats) =>
-    stats?.isFile()
-      ? !p.endsWith('.svg') ||
-        p.endsWith('.svgo.svg') ||
-        p.endsWith('.inkscape.svg')
-      : false,
+const watcher = chokidar.watch(watchedDirs, {
+  ignored: (filePath, stats) => {
+    if (!stats?.isFile()) {
+      return false;
+    }
+
+    if (filePath.endsWith('.svgo.svg') || filePath.endsWith('.inkscape.svg')) {
+      return true;
+    }
+
+    return !/\.(avif|png|svg|webp)$/i.test(filePath);
+  },
   ignoreInitial: false,
   awaitWriteFinish: {
     stabilityThreshold: 200,

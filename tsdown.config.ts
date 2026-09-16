@@ -2,11 +2,22 @@ import { defineConfig } from 'tsdown';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
 import svgo from '@svgr/plugin-svgo';
+import type { Stats } from 'node:fs';
 import { mkdir, readFile, writeFile, stat, unlink, rm } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
 import sharp from 'sharp';
+import {
+  buildingOutlineExport,
+  generateBuildingOutlines,
+} from './scripts/generate-building-outlines.ts';
+
+const assetImagePatterns = [
+  'src/graphic-packs/**/*.avif',
+  'src/graphic-packs/**/*.png',
+  'src/graphic-packs/**/*.webp',
+];
 
 const generateSvgComponents = async () => {
   const svgFiles = (await Array.fromAsync(glob('src/svg/*.svg'))).filter(
@@ -24,7 +35,7 @@ const generateSvgComponents = async () => {
     const outPath = join(outDir, `${componentName}.tsx`);
 
     const svgStats = await stat(svgFile);
-    let outStats;
+    let outStats: Stats | undefined;
     try {
       outStats = await stat(outPath);
     } catch {
@@ -118,6 +129,9 @@ const generateSvgComponents = async () => {
     );
   }
 
+  await generateBuildingOutlines();
+  exports.push(buildingOutlineExport);
+
   // Cleanup orphaned files
   const generatedFiles = await Array.fromAsync(
     glob('src/generated-svgs/*.tsx'),
@@ -135,7 +149,7 @@ const generateSvgComponents = async () => {
   const indexContent = `${exports.join('\n')}\n`;
   const indexPath = resolve('src/index.ts');
 
-  let currentIndexContent;
+  let currentIndexContent: string | undefined;
   try {
     currentIndexContent = await readFile(indexPath, 'utf8');
   } catch {
@@ -161,12 +175,13 @@ const optimizeImages = async () => {
     })
     .toFile(outPath);
 
+  // biome-ignore lint/suspicious/noConsole: Build scripts report progress in the terminal.
   console.log(`[tsdown] Optimized logo saved to ${outPath}`);
 };
 
 const copyStaticFiles = async () => {
   const staticFiles = await Array.fromAsync(
-    glob(['src/graphic-packs/**/*.avif', 'src/public/**/*']),
+    glob([...assetImagePatterns, 'src/public/**/*']),
   );
 
   let latestMtime = 0;
@@ -199,14 +214,19 @@ export default defineConfig({
     hooks.hook('build:done', async () => {
       await optimizeImages();
       await rm('src/generated-svgs', { recursive: true, force: true });
+      await rm('src/generated-building-outlines.ts', { force: true });
     });
   },
   copy: async () => {
     if (await copyStaticFiles()) {
+      // biome-ignore lint/suspicious/noConsole: Build scripts report progress in the terminal.
       console.log('[tsdown] Copying static files...');
 
       return [
-        { from: './src/graphic-packs/**/*.avif', flatten: false },
+        ...assetImagePatterns.map((pattern) => ({
+          from: `./${pattern}`,
+          flatten: false,
+        })),
         {
           from: './src/public/favicon/**/*',
           to: './dist/favicon',
@@ -222,6 +242,7 @@ export default defineConfig({
         },
       ];
     }
+    // biome-ignore lint/suspicious/noConsole: Build scripts report progress in the terminal.
     console.log('[tsdown] Static files are up-to-date, skipping copy.');
     return [];
   },

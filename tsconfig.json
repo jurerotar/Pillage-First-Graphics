@@ -6,6 +6,7 @@
     "target": "ESNext",
     "lib": ["ESNext"],
     "allowJs": false,
+    "allowImportingTsExtensions": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
