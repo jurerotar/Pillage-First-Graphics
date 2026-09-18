@@ -73,8 +73,14 @@ const generateSvgComponents = async () => {
               },
             },
 
-            // Keep class-based CSS because several Illustrator exports rely on
-            // their <style> elements for fills and gradients.
+            {
+              name: 'inlineStyles',
+              params: {
+                onlyMatchedOnce: false,
+              },
+            },
+            'convertStyleToAttrs',
+            'removeStyleElement',
             // Prefer viewBox-driven scaling
             'removeDimensions',
 
