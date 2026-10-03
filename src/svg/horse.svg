@@ -3,16 +3,24 @@
 <svg version="1.1" id="horse" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 460.3 501.1" style="enable-background:new 0 0 460.3 501.1;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#423A36;}
-	.st1{fill:#2E2521;}
-	.st2{fill:#686562;}
-	.st3{fill:#2D2824;}
-	.st4{fill:#7D7975;}
-	.st5{fill:#C5BBB1;}
-	.st6{fill:#595552;}
-	.st7{fill:none;stroke:#CCCCCC;stroke-width:6;stroke-miterlimit:10;}
-	.st8{fill:#AD9C95;}
-	.st9{fill:#B3A39B;}
+	.st0{fill:var(--pf-horse-base, #423A36);}
+	.st1{fill:var(--pf-horse-base-bottom, #2E2521);}
+	.st2{fill:var(--pf-horse-ears-back, #686562);}
+	.st3{fill:var(--pf-horse-ears-front, #2D2824);}
+	.st4{fill:var(--pf-horse-eye-lid, #7D7975);}
+	.st5{fill:var(--pf-horse-eye-pupil, #C5BBB1);}
+	.st6{fill:var(--pf-horse-head-front, #595552);}
+	.st7{fill:none;stroke:var(--pf-horse-metal, #CCCCCC);stroke-width:6;stroke-miterlimit:10;}
+	.st8{fill:var(--pf-horse-harness-rope, #AD9C95);}
+	.st9{fill:var(--pf-horse-harness-rope, #B3A39B);}
+	#eye{fill:var(--pf-horse-eye, #1D1714);}
+	#eye-lid-bottom{fill:var(--pf-horse-eye-lid, #2D2824);}
+	#eye-lid-top-detail{fill:var(--pf-horse-eye-lid, #2D2824);}
+	#mouth-line{fill:var(--pf-horse-mouth-line, #2D2824);}
+	#nose{fill:var(--pf-horse-nose, #2D2824);}
+	#nose-detail{fill:var(--pf-horse-nose-detail, #595552);}
+	#mane-back{fill:var(--pf-horse-mane-back, #2D2824);}
+	#mane-front{fill:var(--pf-horse-mane-front, #2D2824);}
 </style>
 <path id="base" class="st0" d="M0,501.1h199.4c4-9.9,3.3-22.3,1.3-32.4c-2.4-12.1-5-24.2-7.7-36.3c-0.8-4-9-58.1-8.4-72.8
 	c0.6-13.2,2.1-26.3,7.3-38.6c2.2-5.3,5.5-9.9,10-13.6c3.8-2.8,19-17.8,43.4,11.3c7,8.4,16.2,11.8,26.6,15.2

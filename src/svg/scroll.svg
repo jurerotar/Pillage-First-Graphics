@@ -11,7 +11,7 @@
 	.st5{fill:url(#SVGID_6_);}
 	.st6{fill:url(#SVGID_7_);}
 	.st7{fill:url(#SVGID_8_);}
-	.st8{fill:url(#binding_1_);}
+	.st8{fill:var(--pf-scroll-binding, url(#binding_1_));}
 	.st9{opacity:0.4;fill:url(#SVGID_9_);enable-background:new    ;}
 	.st10{fill:url(#SVGID_10_);}
 </style>
