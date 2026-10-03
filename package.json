@@ -1,7 +1,11 @@
 {
   "name": "@pillage-first/graphics",
-  "version": "0.4.0-rc7",
+  "version": "0.4.0-rc8",
   "type": "module",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "sideEffects": [
+    "./dist/icons.css"
+  ],
   "description": "Pillage-First Graphics Library provides graphical assets for the game Pillage First! (Ask Questions Later). This library includes SVG-based graphics, as well as organized image packs.",
   "author": "Jure Rotar <hello@jurerotar.com>",
   "homepage": "https://github.com/jurerotar/Pillage-First-Graphics",
@@ -18,7 +22,8 @@
     ".": {
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
-    }
+    },
+    "./icons.css": "./dist/icons.css"
   },
   "module": "./dist/index.mjs",
   "files": [
@@ -32,6 +37,8 @@
     "format:check": "npx @biomejs/biome format",
     "format": "npx @biomejs/biome format --write",
     "type-check": "tsc --noEmit",
+    "publint": "publint",
+    "attw": "attw --pack --profile esm-only --exclude-entrypoints ./icons.css",
     "test": "vitest",
     "prepublishOnly": "npm run build",
     "release": "node ./scripts/publish.ts"
@@ -46,9 +53,12 @@
     "@types/react-dom": "19.3.0",
     "chokidar": "5.0.0",
     "react": "19.3.0",
+    "sass": "1.105.1",
     "sharp": "0.35.4",
     "tsdown": "0.23.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "publint": "0.3.25",
+    "@arethetypeswrong/cli": "0.18.5"
   },
   "dependencies": {
     "moderndash": "4.0.2"

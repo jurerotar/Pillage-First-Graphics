@@ -1,0 +1,354 @@
+@use "variables" as variables;
+
+:root {
+  @each $name, $color in variables.$tribe-colors {
+    --pf-tribe-color-#{$name}: #{$color};
+  }
+
+}
+
+.pf-scroll--report {
+  --pf-scroll-binding: currentColor;
+}
+
+.pf-scroll--roman {
+  --pf-scroll-binding: var(--pf-tribe-color-romans);
+}
+
+.pf-scroll--gaul {
+  --pf-scroll-binding: var(--pf-tribe-color-gauls);
+}
+
+.pf-scroll--teutonic {
+  --pf-scroll-binding: var(--pf-tribe-color-teutons);
+}
+
+.pf-scroll--hun {
+  --pf-scroll-binding: var(--pf-tribe-color-huns);
+}
+
+.pf-scroll--egyptian {
+  --pf-scroll-binding: var(--pf-tribe-color-egyptians);
+}
+
+.pf-scroll--spartan {
+  --pf-scroll-binding: var(--pf-tribe-color-spartans);
+}
+
+.pf-scroll--natarian {
+  --pf-scroll-binding: var(--pf-tribe-color-natars);
+}
+
+@each $icon-name, $tribe-name in variables.$tribe-icon-names {
+  .pf-settler--#{$icon-name} {
+    color: var(--pf-tribe-color-#{$tribe-name});
+  }
+}
+
+[class*="pf-horse--"] {
+  --pf-horse-eye: #1d1714;
+  --pf-horse-eye-pupil: #fff;
+  --pf-horse-metal: #b8b8b8;
+}
+
+.pf-horse--roman-scout {
+  --pf-horse-base: #a7794f;
+  --pf-horse-base-bottom: #755136;
+  --pf-horse-ears-back: #8d6748;
+  --pf-horse-ears-front: #5b3926;
+  --pf-horse-eye-lid: #5b3926;
+  --pf-horse-head-front: #b8895e;
+  --pf-horse-mane-back: #3a2417;
+  --pf-horse-mane-front: #3a2417;
+  --pf-horse-mouth-line: #2a1b14;
+  --pf-horse-nose: #2f2019;
+  --pf-horse-nose-detail: #60412d;
+  --pf-horse-harness-rope: var(--pf-tribe-color-romans);
+}
+
+.pf-horse--equites-imperatoris {
+  --pf-horse-base: #6a4429;
+  --pf-horse-base-bottom: #452a19;
+  --pf-horse-ears-back: #5a3a25;
+  --pf-horse-ears-front: #332016;
+  --pf-horse-eye-lid: #332016;
+  --pf-horse-head-front: #7b5132;
+  --pf-horse-mane-back: #20130d;
+  --pf-horse-mane-front: #20130d;
+  --pf-horse-mouth-line: #1b100b;
+  --pf-horse-nose: #261812;
+  --pf-horse-nose-detail: #3a2418;
+  --pf-horse-harness-rope: var(--pf-tribe-color-romans);
+}
+
+.pf-horse--equites-caesaris {
+  --pf-horse-base: #d9d0c5;
+  --pf-horse-base-bottom: #a99d91;
+  --pf-horse-ears-back: #beb4aa;
+  --pf-horse-ears-front: #82776e;
+  --pf-horse-eye-lid: #82776e;
+  --pf-horse-head-front: #ebe4dc;
+  --pf-horse-mane-back: #eee3d3;
+  --pf-horse-mane-front: #eee3d3;
+  --pf-horse-mouth-line: #5b514b;
+  --pf-horse-nose: #8b8178;
+  --pf-horse-nose-detail: #b8ada2;
+  --pf-horse-harness-rope: var(--pf-tribe-color-romans);
+}
+
+.pf-horse--gaul-scout {
+  --pf-horse-base: #b28047;
+  --pf-horse-base-bottom: #7c5630;
+  --pf-horse-ears-back: #9a7047;
+  --pf-horse-ears-front: #5f3b22;
+  --pf-horse-eye-lid: #5f3b22;
+  --pf-horse-head-front: #c08f57;
+  --pf-horse-mane-back: #3b2617;
+  --pf-horse-mane-front: #3b2617;
+  --pf-horse-mouth-line: #2a1a11;
+  --pf-horse-nose: #3f2a1d;
+  --pf-horse-nose-detail: #704b30;
+  --pf-horse-harness-rope: var(--pf-tribe-color-gauls);
+}
+
+.pf-horse--theutates-thunder {
+  --pf-horse-base: #c3b7aa;
+  --pf-horse-base-bottom: #8b8075;
+  --pf-horse-ears-back: #a89c91;
+  --pf-horse-ears-front: #746a61;
+  --pf-horse-eye-lid: #746a61;
+  --pf-horse-head-front: #d4cabf;
+  --pf-horse-mane-back: #2f2925;
+  --pf-horse-mane-front: #2f2925;
+  --pf-horse-mouth-line: #544b44;
+  --pf-horse-nose: #786f67;
+  --pf-horse-nose-detail: #9d9288;
+  --pf-horse-harness-rope: var(--pf-tribe-color-gauls);
+}
+.pf-horse--druidrider {
+  --pf-horse-base: #dcc7ad;
+  --pf-horse-base-bottom: #b49a7c;
+  --pf-horse-ears-back: #c7af91;
+  --pf-horse-ears-front: #90775e;
+  --pf-horse-eye-lid: #90775e;
+  --pf-horse-head-front: #ead7bf;
+  --pf-horse-mane-back: #75604b;
+  --pf-horse-mane-front: #75604b;
+  --pf-horse-mouth-line: #695542;
+  --pf-horse-nose: #978068;
+  --pf-horse-nose-detail: #bba187;
+  --pf-horse-harness-rope: var(--pf-tribe-color-gauls);
+}
+.pf-horse--haeduan {
+  --pf-horse-base: #8b5a34;
+  --pf-horse-base-bottom: #56351f;
+  --pf-horse-ears-back: #715033;
+  --pf-horse-ears-front: #3f291a;
+  --pf-horse-eye-lid: #3f291a;
+  --pf-horse-head-front: #a06b3f;
+  --pf-horse-mane-back: #e6d3b9;
+  --pf-horse-mane-front: #e6d3b9;
+  --pf-horse-mouth-line: #2b1b12;
+  --pf-horse-nose: #382419;
+  --pf-horse-nose-detail: #614028;
+  --pf-horse-harness-rope: var(--pf-tribe-color-gauls);
+}
+.pf-horse--paladin {
+  --pf-horse-base: #a77b52;
+  --pf-horse-base-bottom: #745236;
+  --pf-horse-ears-back: #8d694b;
+  --pf-horse-ears-front: #573a27;
+  --pf-horse-eye-lid: #573a27;
+  --pf-horse-head-front: #b98b60;
+  --pf-horse-mane-back: #392617;
+  --pf-horse-mane-front: #392617;
+  --pf-horse-mouth-line: #2a1c13;
+  --pf-horse-nose: #4b3425;
+  --pf-horse-nose-detail: #715039;
+  --pf-horse-harness-rope: var(--pf-tribe-color-teutons);
+}
+.pf-horse--teutonic-knight {
+  --pf-horse-base: #44474c;
+  --pf-horse-base-bottom: #25272b;
+  --pf-horse-ears-back: #3d4045;
+  --pf-horse-ears-front: #202226;
+  --pf-horse-eye-lid: #202226;
+  --pf-horse-head-front: #55585e;
+  --pf-horse-mane-back: #191b1f;
+  --pf-horse-mane-front: #191b1f;
+  --pf-horse-mouth-line: #15171a;
+  --pf-horse-nose: #272a2f;
+  --pf-horse-nose-detail: #393d43;
+  --pf-horse-harness-rope: var(--pf-tribe-color-teutons);
+}
+.pf-horse--egyptian-scout {
+  --pf-horse-base: #efe6d7;
+  --pf-horse-base-bottom: #c3b29f;
+  --pf-horse-ears-back: #dbcbb8;
+  --pf-horse-ears-front: #9b8873;
+  --pf-horse-eye-lid: #9b8873;
+  --pf-horse-head-front: #f8efe1;
+  --pf-horse-mane-back: #f2e7d0;
+  --pf-horse-mane-front: #f2e7d0;
+  --pf-horse-mouth-line: #6f5e4f;
+  --pf-horse-nose: #9a8877;
+  --pf-horse-nose-detail: #cbbba8;
+  --pf-horse-harness-rope: var(--pf-tribe-color-egyptians);
+}
+
+.pf-horse--anhur-guard {
+  --pf-horse-base: #c79a68;
+  --pf-horse-base-bottom: #8f6742;
+  --pf-horse-ears-back: #ad835d;
+  --pf-horse-ears-front: #6b4a2d;
+  --pf-horse-eye-lid: #6b4a2d;
+  --pf-horse-head-front: #d8aa76;
+  --pf-horse-mane-back: #3d2a1b;
+  --pf-horse-mane-front: #3d2a1b;
+  --pf-horse-mouth-line: #302016;
+  --pf-horse-nose: #493222;
+  --pf-horse-nose-detail: #7a5638;
+  --pf-horse-harness-rope: var(--pf-tribe-color-egyptians);
+}
+.pf-horse--resheph-chariot {
+  --pf-horse-base: #d7cec3;
+  --pf-horse-base-bottom: #9d9287;
+  --pf-horse-ears-back: #b9afa5;
+  --pf-horse-ears-front: #7d746b;
+  --pf-horse-eye-lid: #7d746b;
+  --pf-horse-head-front: #eee6dd;
+  --pf-horse-mane-back: #2f2925;
+  --pf-horse-mane-front: #2f2925;
+  --pf-horse-mouth-line: #514942;
+  --pf-horse-nose: #746c64;
+  --pf-horse-nose-detail: #9b9188;
+  --pf-horse-harness-rope: var(--pf-tribe-color-egyptians);
+}
+.pf-horse--hun-scout {
+  --pf-horse-base: #8b5428;
+  --pf-horse-base-bottom: #5a3417;
+  --pf-horse-ears-back: #744b2d;
+  --pf-horse-ears-front: #462714;
+  --pf-horse-eye-lid: #462714;
+  --pf-horse-head-front: #9d6331;
+  --pf-horse-mane-back: #2d1708;
+  --pf-horse-mane-front: #2d1708;
+  --pf-horse-mouth-line: #241307;
+  --pf-horse-nose: #351d0d;
+  --pf-horse-nose-detail: #5f391b;
+  --pf-horse-harness-rope: var(--pf-tribe-color-huns);
+}
+
+.pf-horse--steppe-rider {
+  --pf-horse-base: #b88a55;
+  --pf-horse-base-bottom: #815f39;
+  --pf-horse-ears-back: #9b7650;
+  --pf-horse-ears-front: #614225;
+  --pf-horse-eye-lid: #614225;
+  --pf-horse-head-front: #c79a63;
+  --pf-horse-mane-back: #efe1cb;
+  --pf-horse-mane-front: #efe1cb;
+  --pf-horse-mouth-line: #3d2818;
+  --pf-horse-nose: #513824;
+  --pf-horse-nose-detail: #7f5d3b;
+  --pf-horse-harness-rope: var(--pf-tribe-color-huns);
+}
+.pf-horse--marksman {
+  --pf-horse-base: #8c623a;
+  --pf-horse-base-bottom: #594020;
+  --pf-horse-ears-back: #76543a;
+  --pf-horse-ears-front: #46301a;
+  --pf-horse-eye-lid: #46301a;
+  --pf-horse-head-front: #9d7146;
+  --pf-horse-mane-back: #6f4728;
+  --pf-horse-mane-front: #6f4728;
+  --pf-horse-mouth-line: #2a1b0e;
+  --pf-horse-nose: #3c2919;
+  --pf-horse-nose-detail: #604326;
+  --pf-horse-harness-rope: var(--pf-tribe-color-huns);
+}
+.pf-horse--marauder {
+  --pf-horse-base: #5f3a1f;
+  --pf-horse-base-bottom: #371f0f;
+  --pf-horse-ears-back: #51331e;
+  --pf-horse-ears-front: #2d190c;
+  --pf-horse-eye-lid: #2d190c;
+  --pf-horse-head-front: #734726;
+  --pf-horse-mane-back: #1e0f06;
+  --pf-horse-mane-front: #1e0f06;
+  --pf-horse-mouth-line: #170b04;
+  --pf-horse-nose: #251207;
+  --pf-horse-nose-detail: #3f2412;
+  --pf-horse-harness-rope: var(--pf-tribe-color-huns);
+}
+.pf-horse--elpida-rider {
+  --pf-horse-base: #8b8783;
+  --pf-horse-base-bottom: #5c5854;
+  --pf-horse-ears-back: #7d7873;
+  --pf-horse-ears-front: #4b4743;
+  --pf-horse-eye-lid: #4b4743;
+  --pf-horse-head-front: #aaa39c;
+  --pf-horse-mane-back: #eee6dc;
+  --pf-horse-mane-front: #eee6dc;
+  --pf-horse-mouth-line: #34302d;
+  --pf-horse-nose: #4d4945;
+  --pf-horse-nose-detail: #6d6863;
+  --pf-horse-harness-rope: var(--pf-tribe-color-spartans);
+}
+.pf-horse--corinthian-crusher {
+  --pf-horse-base: #6d3f24;
+  --pf-horse-base-bottom: #3f2414;
+  --pf-horse-ears-back: #604128;
+  --pf-horse-ears-front: #2c190e;
+  --pf-horse-eye-lid: #2c190e;
+  --pf-horse-head-front: #84502e;
+  --pf-horse-mane-back: #1d1009;
+  --pf-horse-mane-front: #1d1009;
+  --pf-horse-mouth-line: #1a0e08;
+  --pf-horse-nose: #28170d;
+  --pf-horse-nose-detail: #472916;
+  --pf-horse-harness-rope: var(--pf-tribe-color-spartans);
+}
+.pf-horse--natarian-scout {
+  --pf-horse-base: #6a6668;
+  --pf-horse-base-bottom: #403c3e;
+  --pf-horse-ears-back: #5d585a;
+  --pf-horse-ears-front: #343032;
+  --pf-horse-eye-lid: #343032;
+  --pf-horse-head-front: #7b7678;
+  --pf-horse-mane-back: #211d20;
+  --pf-horse-mane-front: #211d20;
+  --pf-horse-mouth-line: #1a1719;
+  --pf-horse-nose: #2a2528;
+  --pf-horse-nose-detail: #504a4e;
+  --pf-horse-harness-rope: var(--pf-tribe-color-natars);
+}
+
+.pf-horse--axerider {
+  --pf-horse-base: #67635f;
+  --pf-horse-base-bottom: #403d3a;
+  --pf-horse-ears-back: #595550;
+  --pf-horse-ears-front: #302e2c;
+  --pf-horse-eye-lid: #302e2c;
+  --pf-horse-head-front: #77726c;
+  --pf-horse-mane-back: #292725;
+  --pf-horse-mane-front: #292725;
+  --pf-horse-mouth-line: #242220;
+  --pf-horse-nose: #393633;
+  --pf-horse-nose-detail: #514d49;
+  --pf-horse-harness-rope: var(--pf-tribe-color-natars);
+}
+.pf-horse--natarian-knight {
+  --pf-horse-base: #242126;
+  --pf-horse-base-bottom: #111013;
+  --pf-horse-ears-back: #211f23;
+  --pf-horse-ears-front: #0f0d11;
+  --pf-horse-eye-lid: #0f0d11;
+  --pf-horse-head-front: #343038;
+  --pf-horse-mane-back: #000000;
+  --pf-horse-mane-front: #000000;
+  --pf-horse-mouth-line: #0b090c;
+  --pf-horse-nose: #141117;
+  --pf-horse-nose-detail: #26222b;
+  --pf-horse-harness-rope: var(--pf-tribe-color-natars);
+}

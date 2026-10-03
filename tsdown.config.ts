@@ -7,6 +7,7 @@ import { mkdir, readFile, writeFile, stat, unlink, rm } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
 import { basename, join, resolve } from 'node:path';
+import { compile } from 'sass';
 import sharp from 'sharp';
 import {
   buildingOutlineExport,
@@ -185,9 +186,25 @@ const optimizeImages = async () => {
   console.log(`[tsdown] Optimized logo saved to ${outPath}`);
 };
 
+const compileIconStyles = async () => {
+  const { css } = compile('src/icons.scss', { style: 'compressed' });
+
+  await mkdir('dist', { recursive: true });
+  await Promise.all([
+    rm('dist/icon-styles.css', { force: true }),
+    rm('dist/tribe-colors.css', { force: true }),
+  ]);
+  await writeFile('dist/icons.css', css);
+};
+
 const copyStaticFiles = async () => {
   const staticFiles = await Array.fromAsync(
-    glob([...assetImagePatterns, 'src/public/**/*']),
+    glob([
+      ...assetImagePatterns,
+      'src/public/**/*',
+      'src/icons.scss',
+      'src/_variables.scss',
+    ]),
   );
 
   let latestMtime = 0;
@@ -224,6 +241,8 @@ export default defineConfig({
     });
   },
   copy: async () => {
+    await compileIconStyles();
+
     if (await copyStaticFiles()) {
       // biome-ignore lint/suspicious/noConsole: Build scripts report progress in the terminal.
       console.log('[tsdown] Copying static files...');
