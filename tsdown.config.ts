@@ -1,18 +1,29 @@
-import { defineConfig } from 'tsdown';
+import type { Stats } from 'node:fs';
+import {
+  glob,
+  mkdir,
+  readFile,
+  rm,
+  stat,
+  unlink,
+  writeFile,
+} from 'node:fs/promises';
+import { basename, join, resolve } from 'node:path';
 import { transform } from '@svgr/core';
 import jsx from '@svgr/plugin-jsx';
 import svgo from '@svgr/plugin-svgo';
-import type { Stats } from 'node:fs';
-import { mkdir, readFile, writeFile, stat, unlink, rm } from 'node:fs/promises';
-import { glob } from 'node:fs/promises';
 import { pascalCase } from 'moderndash';
-import { basename, join, resolve } from 'node:path';
 import { compile } from 'sass';
 import sharp from 'sharp';
+import { defineConfig } from 'tsdown';
 import {
   buildingOutlineExport,
   generateBuildingOutlines,
 } from './scripts/generate-building-outlines.ts';
+import {
+  generateLayerPositions,
+  layerPositionsExport,
+} from './scripts/generate-layer-positions.ts';
 
 const assetImagePatterns = [
   'src/graphic-packs/**/*.avif',
@@ -138,6 +149,7 @@ const generateSvgComponents = async () => {
 
   await generateBuildingOutlines();
   exports.push(buildingOutlineExport);
+  exports.push(layerPositionsExport);
 
   // Cleanup orphaned files
   const generatedFiles = await Array.fromAsync(
@@ -233,12 +245,14 @@ export default defineConfig({
   },
   hooks: (hooks) => {
     hooks.hook('build:prepare', async () => {
+      await generateLayerPositions();
       await generateSvgComponents();
     });
     hooks.hook('build:done', async () => {
       await optimizeImages();
       await rm('src/generated-svgs', { recursive: true, force: true });
       await rm('src/generated-building-outlines.ts', { force: true });
+      await rm('src/generated-layer-positions.ts', { force: true });
     });
   },
   copy: async () => {

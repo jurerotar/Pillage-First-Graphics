@@ -1,6 +1,6 @@
-import chokidar from 'chokidar';
 import { type ChildProcess, spawn } from 'node:child_process';
 import path from 'node:path';
+import chokidar from 'chokidar';
 
 let building = false;
 let pending = false;
@@ -40,7 +40,7 @@ const runBuild = () => {
 
 const watchedDirs = [
   path.join(process.cwd(), 'src', 'svg'),
-  path.join(process.cwd(), 'src', 'graphic-packs', 'default', 'buildings'),
+  path.join(process.cwd(), 'src', 'graphic-packs'),
 ];
 
 const watcher = chokidar.watch(watchedDirs, {
@@ -53,7 +53,7 @@ const watcher = chokidar.watch(watchedDirs, {
       return true;
     }
 
-    return !/\.(avif|png|svg|webp)$/i.test(filePath);
+    return !/\.(avif|png|svg|webp|csv)$/i.test(filePath);
   },
   ignoreInitial: false,
   awaitWriteFinish: {
