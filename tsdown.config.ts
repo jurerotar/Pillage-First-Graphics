@@ -204,6 +204,7 @@ const copyStaticFiles = async () => {
       'src/public/**/*',
       'src/icons.scss',
       'src/_variables.scss',
+      'src/_tribe-colors.scss',
     ]),
   );
 
